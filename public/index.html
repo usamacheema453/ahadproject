@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leaderboard</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #121212;
+        color: #ffffff;
+        font-family: 'Roboto Condensed', sans-serif;
+      }
+
+      nav {
+        background-color: #1f1f1f;
+        border-bottom: 2px solid #8a2be2;
+      }
+
+      nav a.navbar-brand {
+        color: #8a2be2;
+        font-size: 24px;
+        font-weight: bold;
+      }
+
+      nav a.nav-link {
+        color: #ffffff;
+        margin-right: 15px;
+        font-size: 18px;
+      }
+
+      nav a.nav-link:hover {
+        color: #8a2be2;
+      }
+
+      nav .btn {
+        background-color: #8a2be2;
+        color: #ffffff;
+        border-radius: 20px;
+        font-size: 16px;
+        padding: 5px 15px;
+      }
+
+      nav .btn:hover {
+        background-color: #a55ef5;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 2rem auto;
+      }
+
+      .leaderboard-container {
+        background-color: #1f1f1f;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      }
+
+      .leaderboard-container h2 {
+        color: #8a2be2;
+        text-align: center;
+        margin-bottom: 1rem;
+      }
+
+      .topLeadersList {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 1rem;
+      }
+
+      .leader {
+        text-align: center;
+        position: relative;
+      }
+
+      .leader img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        border: 3px solid #8a2be2;
+      }
+
+      .crown svg {
+        width: 40px;
+        position: absolute;
+        top: -30px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .leaderName {
+        margin-top: 10px;
+        font-size: 18px;
+        color: #ffffff;
+      }
+
+      .playerslist {
+        margin-top: 20px;
+      }
+
+      .table-header,
+      .player {
+        display: grid;
+        grid-template-columns: 0.5fr 2fr 1fr 1fr 1fr 1fr 1fr 1fr;
+        align-items: center;
+        text-align: center;
+        padding: 10px;
+      }
+
+      .table-header {
+        background: #8a2be2;
+        font-weight: bold;
+        color: #ffffff;
+        border-radius: 5px;
+      }
+
+      .list {
+        margin-top: 10px;
+        max-height: 200px;
+        overflow-y: auto;
+      }
+
+      .player {
+        background: rgba(138, 43, 226, 0.2);
+        border-bottom: 1px solid #8a2be2;
+      }
+
+      .player:nth-child(odd) {
+        background: rgba(138, 43, 226, 0.1);
+      }
+
+      .player img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 2px solid #ffffff;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+      <div class="container">
+        <a class="navbar-brand" href="index.html">SkillPets</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="pets.html">Pets</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="inventory.html">Inventory</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="quests.html">Quests</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="leaderboard.html">Leaderboard</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="login.html">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="btn btn-sm" href="register.html">Register!</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <div class="container leaderboard-container">
+      <h2>Leaderboard</h2>
+
+      <div class="topLeadersList" id="topLeaders"></div>
+
+      <div class="playerslist">
+        <div class="table-header">
+          <div>#</div>
+          <div>Name</div>
+          <div>LVL</div>
+          <div>XP</div>
+          <div>Coins</div>
+          <div>Likes</div>
+          <div>Pass</div>
+          <div>Resources</div>
+        </div>
+        <div class="list" id="playersList"></div>
+      </div>
+    </div>
+
+    <script>
+      const data = [
+        {
+          id: 1,
+          name: 'Laura',
+          image: 'https://cdn-icons-png.flaticon.com/512/186/186037.png',
+          level: 16,
+          xp: 100,
+          coins: 500,
+          love: 6,
+          beacons: 2,
+          resources: 70,
+        },
+        {
+          id: 2,
+          name: 'Alex',
+          image: 'https://cdn-icons-png.flaticon.com/512/186/186038.png',
+          level: 15,
+          xp: 90,
+          coins: 450,
+          love: 8,
+          beacons: 3,
+          resources: 60,
+        },
+        {
+          id: 3,
+          name: 'Sophia',
+          image: 'https://cdn-icons-png.flaticon.com/512/186/186039.png',
+          level: 14,
+          xp: 80,
+          coins: 400,
+          love: 5,
+          beacons: 2,
+          resources: 50,
+        },
+        {
+          id: 4,
+          name: 'Emma',
+          image: 'https://cdn-icons-png.flaticon.com/512/186/186040.png',
+          level: 13,
+          xp: 70,
+          coins: 350,
+          love: 4,
+          beacons: 1,
+          resources: 40,
+        },
+      ];
+
+      const topLeadersDiv = document.getElementById('topLeaders');
+      const playersListDiv = document.getElementById('playersList');
+
+      // Display top 3 leaders
+      data.slice(0, 3).forEach((leader, index) => {
+        const leaderDiv = document.createElement('div');
+        leaderDiv.classList.add('leader');
+
+        leaderDiv.innerHTML = `
+          <img src="${leader.image}" alt="${leader.name}" />
+          <div class="crown">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 100 50"
+              fill="${index === 0 ? '#ffc500' : index === 1 ? '#d4d4d4' : '#ab6528'}"
+            >
+              <polygon points="12.7 50 87.5 50 100 0 75 25 50 0 25.6 25 0 0 12.7 50" />
+            </svg>
+          </div>
+          <div class="leaderName">${leader.name}</div>
+        `;
+
+        topLeadersDiv.appendChild(leaderDiv);
+      });
+
+      // Display full player list
+      data.forEach((player, index) => {
+        const playerDiv = document.createElement('div');
+        playerDiv.classList.add('player');
+
+        playerDiv.innerHTML = `
+          <div>${index + 1}</div>
+          <div class="user">
+            <img src="${player.image}" alt="${player.name}" />
+            <span>${player.name}</span>
+          </div>
+          <div>${player.level}</div>
+          <div>${player.xp}</div>
+          <div>${player.coins}</div>
+          <div>${player.love}</div>
+          <div>${player.beacons}</div>
+          <div>${player.resources}</div>
+        `;
+
+        playersListDiv.appendChild(playerDiv);
+      });
+    </script>
+  </body>
+</html>

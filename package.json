@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "init": "^0.1.2",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.12.0",
+    "nodemon": "^3.1.9"
+  },
+  "name": "bed-ca2-fongziyou",
+  "description": "You are required to build your folder structures for your project.",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run init_tables && jest --forceExit",
+    "init_tables": "node src/configs/createSchema.js && node src/configs/initTables.js",
+    "test:server": "concurrently \"npm run dev\" \"npm run test -- playwright.test.js --json --outputFile='test_results.json'\" --kill-others --success first",
+    "dev": "nodemon index.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
